@@ -39,9 +39,7 @@ end
 pdf.equation do
   text('Yo whatsup')
   column do
-    # underline do
-      text('Flirty')
-    # end
+    text('Flirty')
     overline do
       text('Cows')
     end
@@ -73,8 +71,36 @@ pdf.equation do
   end
 end
 
+pdf.text ''
 
-pdf.text 'Hiiiiiiiiiiiiiiiiiiiiiiiiiii'
+pdf.equation do
+  overtilde do
+    text('Cows')
+  end
+  overtilde do
+    text('CCCC')
+  end
+  overline do
+    text('Cows')
+  end
+  text('Cows')
+  underline do
+    text('Cows')
+  end
+  undertilde do
+    text('Cows')
+  end
+end
+
+pdf.equation do
+  column do
+    text 'INSIDE'
+    text 'INSIDE'
+    text 'INSIDE'
+  end
+end
+pdf.text 'OUTSIDE'
+
 pdf.text 'Hiiiiiiiiiiiiiiiiiiiiiiiiiii'
 pdf.text 'Hiiiiiiiiiiiiiiiiiiiiiiiiiii'
 pdf.text ' '
