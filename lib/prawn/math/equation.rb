@@ -12,15 +12,14 @@ module Prawn
       def initialize(prawn, **options, &block)
         super(prawn, options)
         @subtree_root = self
-        self.x = 0
-        self.y = prawn.cursor
         if block
           block.arity < 1 ? instance_eval(&block) : block[self]
         end
         calculate_size
         calculate_offsets
+        self.x = 0
+        self.y = prawn.cursor - self.height
         draw
-        prawn.move_cursor_to prawn.cursor - self.height
       end
       
       # Used by nodes

@@ -17,8 +17,9 @@ module Prawn
         prawn.line_width = self.height
 
         bounded do
-          line_y = self.y + (self.height / 2)
-          prawn.line [x, line_y], [width, line_y]
+          lx = [0, width]
+          ly = 0
+          prawn.line [lx[0], ly], [lx[1], ly]
           prawn.stroke
         end
       end
@@ -58,14 +59,14 @@ module Prawn
         children[1].calculate_size
 
         self.width = children[0].width
-        self.height = children[0].height + children[1].height
+        self.height = children[0].height + children[1].height * 2.0
       end
-      
+
       def calculate_offsets
         children[0].x = 0
-        children[0].y = 0
+        children[0].y = children[1].height
         children[1].x = 0
-        children[1].y = 0
+        children[1].y = children[1].height
       end
     end
 
@@ -76,14 +77,14 @@ module Prawn
         children[0].calculate_size
 
         self.width = children[1].width
-        self.height = children[1].height + children[0].height
+        self.height = children[1].height + children[0].height * 2.0
       end
       
       def calculate_offsets
         children[0].x = 0
-        children[0].y = children[1].height / 2  # HACK: WHY IS THIS DIV 2?
+        children[0].y = children[1].height + children[0].height
         children[1].x = 0
-        children[1].y = 0
+        children[1].y = children[0].height
       end
     end
 

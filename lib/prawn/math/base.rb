@@ -69,7 +69,7 @@ module Prawn
         offset = 0
         children.each do |child|
           child.x = offset
-          child.y = (child.height - self.height)/2
+          child.y = (self.height - child.height)/2
           offset += child.width
           offset += @spacing
         end
@@ -94,11 +94,11 @@ module Prawn
       end
       
       def calculate_offsets
-        offset = 0
+        offset = self.height
         children.each do |child|
+          offset -= child.height
           child.y = offset
           child.x = (self.width - child.width)/2
-          offset -= child.height
           offset -= @spacing
         end
       end
