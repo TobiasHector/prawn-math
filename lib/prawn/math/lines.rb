@@ -7,9 +7,13 @@ module Prawn
         self.width = width
       end
 
+      def line_width
+        prawn.font_size / LineScaling
+      end
+
       def calculate_size
         raise "WideLine::width must be set via set_width" unless self.width
-        self.height = prawn.font_size / LineScaling
+        self.height = line_width
       end
 
       def draw
@@ -29,24 +33,27 @@ module Prawn
       def calculate_size
         super
         raise "WideLine::width must be set via set_width" unless self.width
-        self.height = prawn.font_size / LineScaling
+        self.height = prawn.font_size / 4.0
       end
 
       def draw
         prawn.cap_style = :round
-        prawn.line_width = self.height
-        
-        x = [0.0, width / 2.0, width]
-        y = [0.0,prawn.font_size / 8.0,prawn.font_size / 4.0]
+        prawn.line_width = line_width
 
         bounded do
-          line_y = self.y + (self.height / 2)
-          pdf.stroke do
-            pdf.move_to x[0], y
+          lx = [0.0,  width / 2.0,  width]
+          ly = [height / -2.0, 0.0, height / 2.0]
 
-            pdf.curve_to [x[1], y], :bounds => [[x[0], y + yoffset], [x[1], y + yoffset]]
+          xoffset = width / 8
+          bx = [lx[0] + xoffset, lx[1] - xoffset, lx[1] + xoffset, lx[2] - xoffset]
+          by = ly
 
-            pdf.curve_to [x[2], y], :bounds => [[x[1], y - yoffset], [x[2], y - yoffset]]
+          prawn.stroke do
+            prawn.move_to   lx[0], ly[1]
+
+            prawn.curve_to [lx[1], ly[1]], :bounds => [[bx[0], by[2]], [bx[1], by[2]]]
+
+            prawn.curve_to [lx[2], ly[1]], :bounds => [[bx[2], by[0]], [bx[3], by[0]]]
           end
         end
       end
@@ -108,6 +115,32 @@ module Prawn
 
           add_subtree(overline) do
             add_child(Prawn::Math::WideLine.new(prawn, halign: halign, valign: valign))
+            row(halign: halign, valign: valign, spacing: spacing) do
+              yield
+            end
+          end
+          overline.calculate_size
+          overline.calculate_offsets
+        end
+
+        def undertilde(halign: :left, valign: :top, spacing: 1, &block)
+          underline = Prawn::Math::UnderLine.new(prawn, halign: halign, valign: valign)
+
+          add_subtree(underline) do
+            row(halign: halign, valign: valign, spacing: spacing) do
+              yield
+            end
+            add_child(Prawn::Math::WideTilde.new(prawn, halign: halign, valign: valign))
+          end
+          underline.calculate_size
+          underline.calculate_offsets
+        end
+
+        def overtilde(halign: :left, valign: :top, spacing: 1, &block)
+          overline = Prawn::Math::OverLine.new(prawn, halign: halign, valign: valign)
+
+          add_subtree(overline) do
+            add_child(Prawn::Math::WideTilde.new(prawn, halign: halign, valign: valign))
             row(halign: halign, valign: valign, spacing: spacing) do
               yield
             end
