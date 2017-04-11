@@ -90,23 +90,27 @@ module Prawn
 
     class Equation < Row
       module Lines
-        def underline(halign: :left, valign: :top, &block)
-          underline = Prawn::Math::Underline.new(prawn, halign: halign, valign: valign)
+        def underline(halign: :left, valign: :top, spacing: 1, &block)
+          underline = Prawn::Math::UnderLine.new(prawn, halign: halign, valign: valign)
 
           add_subtree(underline) do
-            yield
+            row(halign: halign, valign: valign, spacing: spacing) do
+              yield
+            end
             add_child(Prawn::Math::WideLine.new(prawn, halign: halign, valign: valign))
           end
           underline.calculate_size
           underline.calculate_offsets
         end
 
-        def overline(halign: :left, valign: :top, &block)
-          overline = Prawn::Math::Overline.new(prawn, halign: halign, valign: valign)
+        def overline(halign: :left, valign: :top, spacing: 1, &block)
+          overline = Prawn::Math::OverLine.new(prawn, halign: halign, valign: valign)
 
           add_subtree(overline) do
             add_child(Prawn::Math::WideLine.new(prawn, halign: halign, valign: valign))
-            yield
+            row(halign: halign, valign: valign, spacing: spacing) do
+              yield
+            end
           end
           overline.calculate_size
           overline.calculate_offsets
