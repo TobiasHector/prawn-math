@@ -64,6 +64,10 @@ module Prawn
         super(prawn, options)
         @spacing = spacing
       end
+      
+      def spacing
+        @spacing * prawn.font_size
+      end
 
       def calculate_offsets
         offset = 0
@@ -71,7 +75,7 @@ module Prawn
           child.x = offset
           child.y = (self.height - child.height)/2
           offset += child.width
-          offset += @spacing
+          offset += spacing
         end
       end
 
@@ -82,7 +86,7 @@ module Prawn
           child_width += child.width
           child_height_max = [child_height_max, child.height].max
         end
-        self.width = child_width + ((children.length - 1) * @spacing)
+        self.width = child_width + ((children.length - 1) * spacing)
         self.height = child_height_max
       end
     end
@@ -93,13 +97,17 @@ module Prawn
         @spacing = spacing
       end
 
+      def spacing
+        @spacing * prawn.font_size
+      end
+      
       def calculate_offsets
         offset = self.height
         children.each do |child|
           offset -= child.height
           child.y = offset
           child.x = (self.width - child.width)/2
-          offset -= @spacing
+          offset -= spacing
         end
       end
 
@@ -111,13 +119,13 @@ module Prawn
           child_height += child.height
         end
         self.width = child_width_max
-        self.height = child_height + ((children.length - 1) * @spacing)
+        self.height = child_height + ((children.length - 1) * spacing)
       end
     end
 
     class Equation < Row
       module Layout
-        def column(halign: :left, valign: :top, spacing: 1, &block)
+        def column(halign: :left, valign: :top, spacing: 0.25, &block)
           column = Prawn::Math::Column.new(prawn, halign: halign, valign: valign, spacing: spacing)
 
           add_subtree(column) do
@@ -127,7 +135,7 @@ module Prawn
           column.calculate_offsets
         end
 
-        def row(halign: :left, valign: :top, spacing: 1, &block)
+        def row(halign: :left, valign: :top, spacing: 0.25, &block)
           row = Prawn::Math::Row.new(prawn, halign: halign, valign: valign, spacing: spacing)
 
           add_subtree(row) do

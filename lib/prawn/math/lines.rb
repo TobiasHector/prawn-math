@@ -97,7 +97,7 @@ module Prawn
 
     class Equation < Row
       module Lines
-        def underline(halign: :left, valign: :top, spacing: 1, &block)
+        def underline(halign: :left, valign: :top, spacing: 0.25, &block)
           underline = Prawn::Math::UnderLine.new(prawn, halign: halign, valign: valign)
 
           add_subtree(underline) do
@@ -110,7 +110,7 @@ module Prawn
           underline.calculate_offsets
         end
 
-        def overline(halign: :left, valign: :top, spacing: 1, &block)
+        def overline(halign: :left, valign: :top, spacing: 0.25, &block)
           overline = Prawn::Math::OverLine.new(prawn, halign: halign, valign: valign)
 
           add_subtree(overline) do
@@ -123,7 +123,7 @@ module Prawn
           overline.calculate_offsets
         end
 
-        def undertilde(halign: :left, valign: :top, spacing: 1, &block)
+        def undertilde(halign: :left, valign: :top, spacing: 0.25, &block)
           underline = Prawn::Math::UnderLine.new(prawn, halign: halign, valign: valign)
 
           add_subtree(underline) do
@@ -136,7 +136,7 @@ module Prawn
           underline.calculate_offsets
         end
 
-        def overtilde(halign: :left, valign: :top, spacing: 1, &block)
+        def overtilde(halign: :left, valign: :top, spacing: 0.25, &block)
           overline = Prawn::Math::OverLine.new(prawn, halign: halign, valign: valign)
 
           add_subtree(overline) do
@@ -148,7 +148,6 @@ module Prawn
           overline.calculate_size
           overline.calculate_offsets
         end
-
       end
     end
   end
