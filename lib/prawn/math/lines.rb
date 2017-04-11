@@ -24,7 +24,7 @@ module Prawn
         end
       end
     end
-    
+
     class WideTilde < WideLine
       def calculate_size
         super
@@ -52,7 +52,7 @@ module Prawn
       end
     end
 
-    class Underline < Node
+    class UnderLine < Node
       def calculate_size
         children[0].calculate_size
         children[1].set_width(children[0].width)
@@ -70,7 +70,7 @@ module Prawn
       end
     end
 
-    class Overline < Node
+    class OverLine < Node
       def calculate_size
         children[1].calculate_size
         children[0].set_width(children[1].width)
@@ -79,7 +79,7 @@ module Prawn
         self.width = children[1].width
         self.height = children[1].height + children[0].height * 2.0
       end
-      
+
       def calculate_offsets
         children[0].x = 0
         children[0].y = children[1].height + children[0].height
@@ -111,6 +111,7 @@ module Prawn
           overline.calculate_size
           overline.calculate_offsets
         end
+
       end
     end
   end

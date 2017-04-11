@@ -21,7 +21,7 @@ module Prawn
         self.y = prawn.cursor - self.height
         draw
       end
-      
+
       # Used by nodes
       def add_subtree(new_root, &block)
         add_child(new_root)
@@ -30,7 +30,7 @@ module Prawn
         yield
         @subtree_root = old_root
       end
-      
+
       # Used by leaves
       def add_child(child)
         if @subtree_root == self

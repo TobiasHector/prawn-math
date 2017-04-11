@@ -5,13 +5,13 @@ pdf = Prawn::Document.new
 
 pdf.equation do
   text('Hi. ')
-  
+
   underline do
     text('Tobias')
   end
-  
+
   text(' ')
-    
+
   overline do
     text('says "HELLO!"')
   end
@@ -19,7 +19,7 @@ end
 
 pdf.equation do
   text('Hi. ')
-  
+
   text('Tobias says "HELLO!"')
 end
 
